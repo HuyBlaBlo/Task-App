@@ -36,26 +36,31 @@ public class Task {
     @Column(name = "updated", nullable = false)
     private LocalDateTime updated;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id")
+    private TaskList taskList;
+
     public Task() {
     }
 
-    public Task(UUID id, String title, String decription, LocalDateTime dueDate, TaskStatus taskStatus, TaskPriority taskPriority, LocalDateTime created, LocalDateTime updated) {
-        this.title = title;
+    public Task(UUID id, LocalDateTime created, String title, String decription, LocalDateTime dueDate, TaskStatus taskStatus, TaskPriority taskPriority, LocalDateTime updated, TaskList taskList) {
+        this.created = created;
         this.id = id;
+        this.title = title;
         this.decription = decription;
         this.dueDate = dueDate;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
-        this.created = created;
         this.updated = updated;
+        this.taskList = taskList;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
+    public TaskPriority getTaskPriority() {
+        return taskPriority;
     }
 
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
+    public void setTaskPriority(TaskPriority taskPriority) {
+        this.taskPriority = taskPriority;
     }
 
     public UUID getId() {
@@ -98,12 +103,12 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public TaskPriority getTaskPriority() {
-        return taskPriority;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setTaskPriority(TaskPriority taskPriority) {
-        this.taskPriority = taskPriority;
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public LocalDateTime getUpdated() {
@@ -114,16 +119,12 @@ public class Task {
         this.updated = updated;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(decription, task.decription) && Objects.equals(dueDate, task.dueDate) && taskStatus == task.taskStatus && taskPriority == task.taskPriority && Objects.equals(created, task.created) && Objects.equals(updated, task.updated);
+    public TaskList getTaskList() {
+        return taskList;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, decription, dueDate, taskStatus, taskPriority, created, updated);
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
     }
 
     @Override
@@ -137,6 +138,19 @@ public class Task {
                 ", taskPriority=" + taskPriority +
                 ", created=" + created +
                 ", updated=" + updated +
+                ", taskList=" + taskList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(decription, task.decription) && Objects.equals(dueDate, task.dueDate) && taskStatus == task.taskStatus && taskPriority == task.taskPriority && Objects.equals(created, task.created) && Objects.equals(updated, task.updated) && Objects.equals(taskList, task.taskList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, decription, dueDate, taskStatus, taskPriority, created, updated, taskList);
     }
 }
