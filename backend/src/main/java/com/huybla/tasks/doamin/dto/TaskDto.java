@@ -9,7 +9,7 @@ import java.util.UUID;
 public record TaskDto(
         UUID id,
         String title,
-        String decription,
+        String description,
         LocalDateTime dueDate,
         TaskPriority taskPriority,
         TaskStatus taskStatus
