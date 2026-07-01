@@ -30,12 +30,12 @@ public class TaskList {
     private LocalDateTime updated;
 
     @OneToMany(mappedBy = "taskList", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<TaskList> tasks;
+    private List<Task> tasks;
 
     public TaskList() {
     }
 
-    public TaskList(LocalDateTime created, UUID id, String title, String description, LocalDateTime updated, List<TaskList> tasks) {
+    public TaskList(UUID id, LocalDateTime created, String title, String description, LocalDateTime updated, List<Task> tasks) {
         this.created = created;
         this.id = id;
         this.title = title;
@@ -84,11 +84,11 @@ public class TaskList {
         this.updated = updated;
     }
 
-    public List<TaskList> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<TaskList> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 
