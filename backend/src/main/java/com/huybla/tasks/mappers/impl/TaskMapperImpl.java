@@ -7,7 +7,16 @@ import com.huybla.tasks.mappers.TaskMapper;
 public class TaskMapperImpl implements TaskMapper {
     @Override
     public Task fromDto(TaskDto taskDto) {
-        return null;
+        return new Task(
+                taskDto.id(),
+                null,
+                taskDto.title(),
+                taskDto.description(),
+                taskDto.dueDate(),
+                taskDto.taskStatus(),
+                taskDto.taskPriority(),
+                null,null
+        );
     }
 
     @Override
