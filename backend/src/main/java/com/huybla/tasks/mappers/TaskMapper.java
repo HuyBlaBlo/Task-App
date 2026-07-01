@@ -5,6 +5,6 @@ import com.huybla.tasks.doamin.entity.Task;
 
 public interface TaskMapper {
     Task fromDto(TaskDto taskDto);
-    Task toDto(Task task);
+    TaskDto toDto(Task task);
 
 }
