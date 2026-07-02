@@ -7,6 +7,8 @@ import com.huybla.tasks.services.TaskListSevice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/task-lists")
@@ -20,6 +22,7 @@ public class TaskListController {
         this.taskListMapper = taskListMapper;
     }
 
+    // get all Task List
     @GetMapping
     public List<TaskListDto> listTaskLists(){
          return this.taskListSevice.listTaskList()
@@ -28,9 +31,17 @@ public class TaskListController {
                  .toList();
     }
 
-    @PostMapping(path = "")
+    // create a new Task List
+    @PostMapping
     public TaskListDto createTaskList(@RequestBody TaskListDto taskListDto){
         TaskList createTaskList = taskListSevice.createTaskList(taskListMapper.fromDto(taskListDto));
         return taskListMapper.toDto(createTaskList);
+    }
+
+    // get a Task List by Id
+    @GetMapping(path = "/{id}")
+    public Optional<TaskListDto> getTaskList(@PathVariable("id")UUID taskListId){
+        return this.taskListSevice.getTaskList(taskListId)
+                .map(taskListMapper::toDto);
     }
 }
