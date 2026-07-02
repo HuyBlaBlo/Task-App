@@ -1,4 +1,4 @@
-package com.huybla.tasks.doamin.entity;
+package com.huybla.tasks.domain.entity;
 
 import jakarta.persistence.*;
 
@@ -18,7 +18,6 @@ public class TaskList {
 
     @Column(name = "tite", nullable = true)
     private String title;
-
 
     @Column(name = "description")
     private String description;

@@ -1,4 +1,4 @@
-package com.huybla.tasks.doamin.dto;
+package com.huybla.tasks.domain.dto;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.huybla.tasks.repositories;
 
-import com.huybla.tasks.doamin.entity.Task;
+import com.huybla.tasks.domain.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.huybla.tasks.mappers.impl;
 
-import com.huybla.tasks.doamin.dto.TaskDto;
-import com.huybla.tasks.doamin.entity.Task;
+import com.huybla.tasks.domain.dto.TaskDto;
+import com.huybla.tasks.domain.entity.Task;
 import com.huybla.tasks.mappers.TaskMapper;
 import org.springframework.stereotype.Component;
 

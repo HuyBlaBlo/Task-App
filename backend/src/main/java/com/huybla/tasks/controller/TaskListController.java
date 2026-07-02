@@ -1,11 +1,10 @@
 package com.huybla.tasks.controller;
 
-import com.huybla.tasks.doamin.dto.TaskListDto;
+import com.huybla.tasks.domain.dto.TaskListDto;
+import com.huybla.tasks.domain.entity.TaskList;
 import com.huybla.tasks.mappers.TaskListMapper;
 import com.huybla.tasks.services.TaskListSevice;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,11 @@ public class TaskListController {
                  .stream()
                  .map(taskListMapper::toDto)
                  .toList();
+    }
+
+    @PostMapping(path = "")
+    public TaskListDto createTaskList(@RequestBody TaskListDto taskListDto){
+        TaskList createTaskList = taskListSevice.createTaskList(taskListMapper.fromDto(taskListDto));
+        return taskListMapper.toDto(createTaskList);
     }
 }

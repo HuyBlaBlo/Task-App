@@ -1,7 +1,7 @@
-package com.huybla.tasks.doamin.dto;
+package com.huybla.tasks.domain.dto;
 
-import com.huybla.tasks.doamin.entity.TaskPriority;
-import com.huybla.tasks.doamin.entity.TaskStatus;
+import com.huybla.tasks.domain.entity.TaskPriority;
+import com.huybla.tasks.domain.entity.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
