@@ -4,6 +4,7 @@ import com.huybla.tasks.domain.entity.Task;
 import com.huybla.tasks.domain.entity.TaskList;
 import com.huybla.tasks.domain.entity.TaskPriority;
 import com.huybla.tasks.domain.entity.TaskStatus;
+import com.huybla.tasks.exceptions.ResourceNotFoundException;
 import com.huybla.tasks.repositories.TaskListRepository;
 import com.huybla.tasks.repositories.TaskRepository;
 import com.huybla.tasks.services.TaskService;
@@ -61,5 +62,17 @@ public class TaskServiceImpl implements TaskService {
         );
 
         return this.taskRepository.save(newTask);
+    }
+
+    // get a Task by id
+    @Override
+    public Optional<Task> getTask(UUID taskListId, UUID taskId) {
+        // check Task List is exists in database
+        if(!taskListRepository.existsById(taskListId)){
+            throw new ResourceNotFoundException("Not found Task List Id in DB");
+        }
+
+        if(!taskRepository.)
+        return this.taskRepository.findByTaskListIdAndId(taskListId,taskId);
     }
 }
