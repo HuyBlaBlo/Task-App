@@ -59,11 +59,18 @@ public class TaskListServiceImpl implements TaskListSevice {
             throw new IllegalArgumentException("Task list must have an Id");
         }
 
-        // try to chance the task list id
-        if(Objects.equals(taskListId, taskList.getId())){
+        // catch exception when user try to chance the task list id
+        if(!Objects.equals(taskListId, taskList.getId())){
             throw new IllegalArgumentException("Attempting to change task list id, this's not permitted!");
         }
-        return null;
+
+        TaskList existingTaskList = this.taskListRepository.findById(taskListId)
+                .orElseThrow(() -> new IllegalArgumentException("Task list not found"));
+
+        existingTaskList.setTitle(taskList.getTitle());
+        existingTaskList.setDescription(taskList.getDescription());
+        existingTaskList.setUpdated(LocalDateTime.now());
+        return this.taskListRepository.save(existingTaskList);
     }
 
 
