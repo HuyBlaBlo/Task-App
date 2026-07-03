@@ -1,6 +1,7 @@
 package com.huybla.tasks.services.impl;
 
 import com.huybla.tasks.domain.entity.TaskList;
+import com.huybla.tasks.exceptions.ResourceNotFoundException;
 import com.huybla.tasks.repositories.TaskListRepository;
 import com.huybla.tasks.services.TaskListSevice;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,13 @@ public class TaskListServiceImpl implements TaskListSevice {
         existingTaskList.setDescription(taskList.getDescription());
         existingTaskList.setUpdated(LocalDateTime.now());
         return this.taskListRepository.save(existingTaskList);
+    }
+
+    @Override
+    public void deleteTaskList(UUID taskListId) {
+        TaskList taskList = this.taskListRepository.findById(taskListId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Task List with id: " + taskListId));
+        this.taskListRepository.deleteById(taskListId);
     }
 
 
