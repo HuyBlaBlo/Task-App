@@ -1,7 +1,6 @@
 package com.huybla.tasks.services.impl;
 
 import com.huybla.tasks.domain.entity.TaskList;
-import com.huybla.tasks.exceptions.ResourceNotFoundException;
 import com.huybla.tasks.repositories.TaskListRepository;
 import com.huybla.tasks.services.TaskListSevice;
 import org.springframework.stereotype.Service;
@@ -14,72 +13,68 @@ import java.util.UUID;
 
 @Service
 public class TaskListServiceImpl implements TaskListSevice {
-    private final TaskListRepository taskListRepository;
+  private final TaskListRepository taskListRepository;
 
-    public TaskListServiceImpl(TaskListRepository taskListRepository) {
-        this.taskListRepository = taskListRepository;
+  public TaskListServiceImpl(TaskListRepository taskListRepository) {
+    this.taskListRepository = taskListRepository;
+  }
+
+  @Override
+  public List<TaskList> listTaskList() {
+    return this.taskListRepository.findAll();
+  }
+
+  @Override
+  public TaskList createTaskList(TaskList taskList) {
+    if (taskList.getId() != null) {
+      throw new IllegalArgumentException("Task List has an ID");
     }
 
-    @Override
-    public List<TaskList> listTaskList() {
-        return this.taskListRepository.findAll();
+    if (taskList.getTitle() == null || taskList.getTitle().isBlank()) {
+      throw new IllegalArgumentException("Task List title must be present!");
     }
 
-    @Override
-    public TaskList createTaskList(TaskList taskList) {
-        if(taskList.getId() != null){
-            throw new IllegalArgumentException("Task List has an ID");
-        }
+    // get the local date
+    LocalDateTime now = LocalDateTime.now();
 
-        if(taskList.getTitle() == null || taskList.getTitle().isBlank()){
-            throw new IllegalArgumentException("Task List title must be present!");
-        }
+    return this.taskListRepository.save(new TaskList(
+        null,
+        now,
+        taskList.getTitle(),
+        taskList.getDescription(),
+        now,
+        null));
+  }
 
-        // get the local date
-        LocalDateTime now = LocalDateTime.now();
+  @Override
+  public Optional<TaskList> getTaskList(UUID id) {
+    return this.taskListRepository.findById(id);
+  }
 
-        return this.taskListRepository.save(new TaskList(
-                null,
-                now,
-                taskList.getTitle(),
-                taskList.getDescription(),
-                now,
-                null
-        ));
+  @Override
+  public TaskList updateTaskList(UUID taskListId, TaskList taskList) {
+
+    if (taskList.getId() == null) {
+      throw new IllegalArgumentException("Task list must have an Id");
     }
 
-    @Override
-    public Optional<TaskList> getTaskList(UUID id) {
-        return this.taskListRepository.findById(id);
+    // catch exception when user try to chance the task list id
+    if (!Objects.equals(taskListId, taskList.getId())) {
+      throw new IllegalArgumentException("Attempting to change task list id, this's not permitted!");
     }
 
-    @Override
-    public TaskList updateTaskList(UUID taskListId, TaskList taskList) {
+    TaskList existingTaskList = this.taskListRepository.findById(taskListId)
+        .orElseThrow(() -> new IllegalArgumentException("Task list not found"));
 
-        if (taskList.getId() == null){
-            throw new IllegalArgumentException("Task list must have an Id");
-        }
+    existingTaskList.setTitle(taskList.getTitle());
+    existingTaskList.setDescription(taskList.getDescription());
+    existingTaskList.setUpdated(LocalDateTime.now());
+    return this.taskListRepository.save(existingTaskList);
+  }
 
-        // catch exception when user try to chance the task list id
-        if(!Objects.equals(taskListId, taskList.getId())){
-            throw new IllegalArgumentException("Attempting to change task list id, this's not permitted!");
-        }
-
-        TaskList existingTaskList = this.taskListRepository.findById(taskListId)
-                .orElseThrow(() -> new IllegalArgumentException("Task list not found"));
-
-        existingTaskList.setTitle(taskList.getTitle());
-        existingTaskList.setDescription(taskList.getDescription());
-        existingTaskList.setUpdated(LocalDateTime.now());
-        return this.taskListRepository.save(existingTaskList);
-    }
-
-    @Override
-    public void deleteTaskList(UUID taskListId) {
-        TaskList taskList = this.taskListRepository.findById(taskListId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Task List with id: " + taskListId));
-        this.taskListRepository.deleteById(taskListId);
-    }
-
+  @Override
+  public void deleteTaskList(UUID taskListId) {
+    this.taskListRepository.deleteById(taskListId);
+  }
 
 }
