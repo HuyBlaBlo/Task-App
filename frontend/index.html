@@ -1,30 +1,279 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskApp - Quản Lý Công Việc</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Task App Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
-</head>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-<body>
-  <div class="container p-3">
-    <div class="main">
-      <div class="task-list">
-        <div class="task-name"></div>
-        <div class="task-list" id="task-list"></div>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <aside class="sidebar" id="sidebar">
+        <div
+          class="p-4 border-bottom d-flex justify-content-between align-items-center"
+          style="border-color: var(--border-color) !important"
+        >
+          <h5 class="m-0 fw-bold">
+            <i class="fa-solid fa-check-double text-primary me-2"></i>TaskApp
+          </h5>
+          <button class="btn btn-sm btn-dark d-md-none" id="closeSidebarBtn">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+
+        <div class="p-3">
+          <button
+            class="btn btn-primary-custom text-white w-100 rounded-3 py-2 fw-medium shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#listModal"
+            onclick="prepareListModal()"
+          >
+            <i class="fa-solid fa-plus me-2"></i> Thêm dự án mới
+          </button>
+        </div>
+
+        <div
+          class="flex-grow-1 overflow-auto pb-4"
+          id="taskListsContainer"
+        ></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="header-area">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center gap-3">
+              <button class="btn btn-dark d-md-none" id="openSidebarBtn">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+              <h2 class="h3 m-0 fw-bold" id="currentListTitle">
+                Hãy chọn một dự án
+              </h2>
+            </div>
+
+            <button
+              class="btn btn-primary-custom text-white rounded-3 px-4 d-none"
+              id="addTaskBtn"
+              data-bs-toggle="modal"
+              data-bs-target="#taskModal"
+              onclick="prepareTaskModal()"
+            >
+              <i class="fa-solid fa-plus me-2"></i> Thêm việc
+            </button>
+          </div>
+          <p class="text-muted mb-3" id="currentListDescription">
+            Chọn một danh sách ở cột bên trái để bắt đầu làm việc nhé.
+          </p>
+
+          <div class="d-none" id="progressContainer">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="text-muted fw-medium">Tiến độ</small>
+              <small class="text-white fw-bold" id="progressText">0%</small>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                id="progressBar"
+                role="progressbar"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+        </header>
+
+        <div class="p-4 flex-grow-1" id="tasksContainer">
+          <div class="empty-state">
+            <i class="fa-regular fa-folder-open"></i>
+            <h4>Chưa chọn danh sách nào</h4>
+            <p>Hãy chọn ở cột trái hoặc tạo mới đi bro.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal fade" id="listModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header border-bottom-0 pb-0">
+            <h5 class="modal-title fw-bold" id="listModalTitle">
+              Tạo dự án mới
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="listForm">
+              <input type="hidden" id="listId" />
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-medium"
+                  >Tên dự án</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="listTitleInput"
+                  required
+                  placeholder="VD: Backend Đồ Án"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-medium"
+                  >Mô tả chi tiết</label
+                >
+                <textarea
+                  class="form-control"
+                  id="listDescInput"
+                  rows="3"
+                  placeholder="Mục tiêu của dự án này là gì?"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer border-top-0 pt-0">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary-custom text-white px-4"
+              onclick="saveList()"
+            >
+              Lưu lại
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="aside">
-      <div class="list-task-lists-title"></div>
-      <div class="list" id="list"></div>
-    </div>
-  </div>
-</body>
 
+    <div class="modal fade" id="taskModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header border-bottom-0 pb-0">
+            <h5 class="modal-title fw-bold" id="taskModalTitle">
+              Thêm công việc
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="taskForm">
+              <input type="hidden" id="taskId" />
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-medium"
+                  >Việc cần làm</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskTitleInput"
+                  required
+                  placeholder="Nhập tên công việc..."
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-medium"
+                  >Ghi chú (Không bắt buộc)</label
+                >
+                <textarea
+                  class="form-control"
+                  id="taskDescInput"
+                  rows="2"
+                ></textarea>
+              </div>
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-muted small fw-medium"
+                    >Mức độ ưu tiên</label
+                  >
+                  <select class="form-select" id="taskPriorityInput">
+                    <option value="LOW">Thấp</option>
+                    <option value="MEDIUM" selected>Trung bình</option>
+                    <option value="HIGH">Cao (Gấp)</option>
+                  </select>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-muted small fw-medium"
+                    >Hạn chót</label
+                  >
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="taskDateInput"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer border-top-0 pt-0">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary-custom text-white px-4"
+              onclick="saveTask()"
+            >
+              Lưu công việc
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="toast-container position-fixed bottom-0 end-0 p-3"
+      style="z-index: 1055"
+    >
+      <div
+        id="appToast"
+        class="toast align-items-center text-white border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body fw-medium" id="toastMessage">
+            Nội dung thông báo
+          </div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script src="app.js"></script>
+  </body>
 </html>
