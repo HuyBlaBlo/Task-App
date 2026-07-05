@@ -89,6 +89,7 @@ public class TaskServiceImpl implements TaskService {
     Task existsTask = this.taskRepository.findByTaskListIdAndId(taskListId, taskId)
         .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
+    // NOTE: The json request body must include the 'taskStatus' field.
     existsTask.setTitle(task.getTitle());
     existsTask.setDecription(task.getDecription());
     existsTask.setDueDate(task.getDueDate());
