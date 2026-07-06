@@ -8,6 +8,7 @@ import com.huybla.tasks.repositories.TaskListRepository;
 import com.huybla.tasks.repositories.TaskRepository;
 import com.huybla.tasks.services.TaskService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -100,6 +101,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   // deleteTask
+  @Transactional
   @Override
   public void deleteTask(UUID taskListId, UUID taskId) {
     this.taskRepository.deleteByTaskListIdAndId(taskListId, taskId);

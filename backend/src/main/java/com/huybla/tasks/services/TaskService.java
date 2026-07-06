@@ -1,6 +1,7 @@
 package com.huybla.tasks.services;
 
 import com.huybla.tasks.domain.entity.Task;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +16,6 @@ public interface TaskService {
 
   Task updateTask(UUID taskListId, UUID taskId, Task task);
 
+  @Transactional
   void deleteTask(UUID taskListId, UUID taskId);
 }
