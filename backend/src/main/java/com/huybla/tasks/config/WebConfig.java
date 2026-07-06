@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
                 // allowd all port like 5500 live server, 3000 react
                 .allowedOrigins("*")
                 // allow method
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 // allow every inf in Header
                 .allowedHeaders("*");
     }
