@@ -45,6 +45,7 @@ async function fetchAPI(endpoint, method = "GET", body = null) {
     return text ? JSON.parse(text) : null;
   } catch (error) {
     console.error("API Fetch Error:", error);
+    ``;
     showToast("Lỗi kết nối máy chủ: " + error.message, "danger");
     throw error;
   }
@@ -350,6 +351,7 @@ async function saveList() {
 
   try {
     if (id) {
+      payload.id = id;
       await apiUpdateList(id, payload);
       showToast("Đã cập nhật dự án thành công!", "success");
     } else {
@@ -456,8 +458,9 @@ async function saveTask() {
 
   try {
     if (id) {
+      taskData.id = id;
       const existing = state.tasks.find((t) => t.id === id);
-      taskData.taskStatus = existing.taskStatus; // Preserve status
+      taskData.taskStatus = existing.taskStatus;
       await apiUpdateTask(state.currentListId, id, taskData);
       showToast("Đã cập nhật công việc!", "success");
     } else {
