@@ -1,0 +1,225 @@
+:root {
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --bg-color: #0f172a;
+  --sidebar-bg: #1e293b;
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+/* MAIN LAYOUT */
+.app-container {
+  height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 320px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--bg-color);
+}
+
+.header-area {
+  background: var(--sidebar-bg);
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/*-===================================== SCROLLBAR)========================*/
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* ============================= LIST BUTTON ========================== */
+.list-group-item-custom {
+  border: none;
+  margin: 4px 12px;
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--text-main);
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.list-group-item-custom:hover {
+  background-color: #334155;
+}
+.list-group-item-custom.active {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: var(--primary-color);
+  font-weight: 600;
+  border-left: 3px solid var(--primary-color);
+}
+.list-group-item-custom .list-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.list-group-item-custom:hover .list-actions {
+  opacity: 1;
+}
+
+/* ================= ====================TASK ITEM ======================== */
+.task-item {
+  background: var(--sidebar-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.task-item:hover {
+  border-color: #475569;
+  transform: translateY(-2px);
+}
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.form-check-input.circular {
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  border: 2px solid #64748b;
+  background-color: transparent;
+}
+.form-check-input.circular:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.inline-edit-input {
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-main);
+  padding: 2px 4px;
+  border-radius: 4px;
+  width: 100%;
+}
+.inline-edit-input:focus {
+  border-color: var(--primary-color);
+  background: var(--bg-color);
+  outline: none;
+}
+
+.badge-high {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #fca5a5;
+}
+.badge-medium {
+  background-color: rgba(217, 119, 6, 0.2);
+  color: #fcd34d;
+}
+.badge-low {
+  background-color: rgba(67, 56, 202, 0.2);
+  color: #a5b4fc;
+}
+
+.btn-primary-custom {
+  background-color: var(--primary-color);
+  border: none;
+}
+.btn-primary-custom:hover {
+  background-color: var(--primary-hover);
+}
+
+.progress {
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--border-color);
+}
+.progress-bar {
+  background-color: var(--primary-color);
+  transition: width 0.4s ease;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+}
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: #475569;
+}
+
+/* DECORATION MODAL */
+.modal-content {
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--border-color) !important;
+}
+
+/*===================== RSPONSIVE ON MOBILE ============*/
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+    transform: translateX(-100%);
+    height: 100%;
+  }
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+  }
+  .sidebar-overlay.show {
+    display: block;
+  }
+}
