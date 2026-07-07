@@ -1,4 +1,4 @@
-# TaskApp - Quản lý Công việc Toàn diện
+# TaskApp - Quản lý Công việc
 
 ## Kiến trúc dự án
 
@@ -15,6 +15,14 @@ Dự án được chia làm 2 phần độc lập:
 - Edit tên công việc nhanh gọn trực tiếp (Inline-Edit).
 - Tính năng đánh dấu ưu tiên (High, Medium, Low).
 
+## Công nghệ cốt lõi
+
+| Phân hệ      | Công nghệ sử dụng                                                                                                                                                                                                                                               |
+| :----------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Backend**  | ![](https://img.shields.io/badge/Java-25-orange?logo=openjdk&logoColor=red) ![](https://img.shields.io/badge/Spring-4.1-green?logo=spring&logoColor=green) ![](https://img.shields.io/badge/Hibernate-7.4-slategrey?logo=hibernate&logoColor=white)             |
+| **Frontend** | ![](https://img.shields.io/badge/Bootstrap-5.3-purple?logo=bootstrap&logoColor=purple) ![](https://img.shields.io/badge/Javascript-5.3-purple?logo=javascript&logoColor=yellow)                                                                                 |
+| **Hạ tầng**  | ![](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql&logoColor=lightblue) ![](https://img.shields.io/badge/Tomcat-11.0-yellow?logo=apachetomcat&logoColor=black) ![](https://img.shields.io/badge/H2_Database-2.4-yellow?logo=databricks&logoColor=white) |
+
 ## Hướng dẫn Khởi chạy Dự án
 
 Để chạy toàn bộ ứng dụng trên máy cá nhân, bạn thực hiện theo luồng 4 bước chuẩn chỉnh dưới đây:
@@ -24,7 +32,7 @@ Dự án được chia làm 2 phần độc lập:
 1.  Mở Terminal / Command Prompt tại thư mục bạn muốn lưu dự án và chạy lệnh:
 
 ```bash
-git clone [https://github.com/HuyBlaBlo/Task-App.git](https://github.com/HuyBlaBlo/Task-App.git)
+git clone https://github.com/HuyBlaBlo/Task-App.git
 ```
 
 2.  Di chuyển vào dự án
